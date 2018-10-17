@@ -1,0 +1,32 @@
+RewriteEngine On
+###############################################################################
+# Common directives
+###############################################################################
+# NOTE: Replace /shop/ with the relative web path of your catalog in the "Rewrite Base" line below:
+
+Options +FollowSymLinks
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST} ^example\.com$ [NC]
+RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+RewriteRule ^index\.php$ http://www.example.com/ [R=301,L]
+
+#RewriteBase /
+
+###############################################################################
+# Start Ultimate SEO URLs
+###############################################################################
+
+# Original (unchanged) URL formats
+RewriteRule ^(.*)-p-([0-9]+)(.*)$ index\.php?main_page=product_info&products_id=$2&%{QUERY_STRING} [L]
+RewriteRule ^(.*)-c-(.*)-p(.*)\.html$ /index.php?main_page=$4&cPath=$2&sort=$5&page=$3
+RewriteRule ^(.*)-c-([0-9_]+)(.*)$ index\.php?main_page=index&cPath=$2&%{QUERY_STRING} [L]
+RewriteRule ^(.*)-ez-(.*).html$ index.php?main_page=page&id=$2 [L]
+
+# All other pages
+# Don't rewrite real files or directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index\.php?main_page=$1&%{QUERY_STRING} [L]
